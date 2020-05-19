@@ -28,7 +28,7 @@ admin.add_view(ModelView(Notification))
 @login_manager.unauthorized_handler
 def unauthorized():
     form = LoginForm()
-    return render_template('login.html', form=form)
+    return redirect(url_for('login'))
 
 
 @app.route('/', methods=['GET', 'POST'])
