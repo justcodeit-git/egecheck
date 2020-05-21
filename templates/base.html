@@ -98,7 +98,7 @@
   </div>
   {% else %}
   <div class="card-body text-center">
-    <p class="alert alert-danger">Чтобы получит доступ к панели управления необходимо войти на сайт или зарегистрироваться</p>
+    <p class="alert alert-warning">Чтобы получит доступ к панели управления необходимо войти на сайт или зарегистрироваться</p>
     <p><a class="btn btn-success" href="{{url_for('login')}}" role="button">Войти на сайт</a> <a class="btn btn-primary" href="{{url_for('register')}}" role="button">Зарегистрироваться</a></p>
   </div>
   {% endif %}

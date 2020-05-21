@@ -167,7 +167,7 @@ def register():
         if not (name or surname or status or email or password or repeat_password):
             flash('Пожалуйста, заполните обязательные для регистрации поля')
         elif password != repeat_password:
-            flash('Пароли не совпадают!')
+            flash('Пароли не совпадают! Попробуйте ввести выбранный пароль ещё раз!')
         else:
             hash_pwd = generate_password_hash(password)
             Users.create(name=name, surname=surname, middle_name=middle_name, status=status, email=email,
