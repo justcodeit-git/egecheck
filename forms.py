@@ -21,11 +21,12 @@ class RegisterForm(FlaskForm):
     middle_name = StringField('Отчество (при наличии)', validators=[Required()])
     status = SelectField(
         'Выберите то, кем вы являетесь (если вы одновремено и педагог и репетитор, то выберите ваш главный статус)',
-        choices=[('pupil', 'Учащийся'), ('teacher', 'Педагог'),
-                 ('expert', 'Эксперт'), ('repetition', 'Репетитор')])
-    email = StringField('Адрес электронной почты', validators=[Required(), EqualTo('repeat_pass', message='Пароли не'
-                                                                                                          'совпадают')])
+        choices=[('Учащйися', 'Учащийся'), ('Педагог', 'Педагог'),
+                 ('Эксперт', 'Эксперт'), ('Репетитор', 'Репетитор')])
+    email = StringField('Адрес электронной почты', validators=[Required()])
     password = PasswordField('Введите пароль')
-    repeat_pass = PasswordField('Повторите ввод пароля')
+    repeat_pass = PasswordField('Повторите ввод пароля',
+                                validators=[Required(), EqualTo('repeat_pass', message='Пароли не'
+                                                                                       'совпадают')])
     phone = StringField('Номер телефона')
     submit = SubmitField('Зарегистрироваться на сайте')

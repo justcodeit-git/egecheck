@@ -153,13 +153,12 @@ def contacts():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+    rand_id = randint(0, 10)
     # Форма регистрации - Начало секции
     if request.method == "POST" and form.validate_on_submit():
         name = form.name.data
         surname = form.surname.data
         middle_name = form.middle_name.data
-        rand_id = randint(0, 10)
-        nickname = translit(str(name).lower() + str(surname).lower() + str(rand_id), 'ru', reversed=True)
         status = form.status.data
         email = form.email.data
         password = form.password.data
@@ -172,7 +171,10 @@ def register():
         else:
             hash_pwd = generate_password_hash(password)
             Users.create(name=name, surname=surname, middle_name=middle_name, status=status, email=email,
-                         password=hash_pwd, phone_number=phone_number, nickname=nickname)
+                         password=hash_pwd, phone_number=phone_number, nickname=translit(str(name).lower()
+                                                                                         + str(surname).lower()
+                                                                                         + str(rand_id), 'ru',
+                                                                                         reversed=True))
             return redirect(url_for('index'))
     # Форма регистрации - Конец секции
     return render_template('register.html', form=form)
