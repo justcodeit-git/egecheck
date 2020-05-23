@@ -5,7 +5,7 @@ from flask_login import LoginManager, login_user, logout_user, current_user, log
 from transliterate import translit
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import Users, Posts, Notification, CommentsH, CommentsS, Messages
-from forms import LoginForm, MessageForm
+from forms import LoginForm, MessageForm, RegisterForm
 from flask_bootstrap import Bootstrap
 from flask_admin import Admin
 from flask_admin.contrib.peewee import ModelView
@@ -152,18 +152,19 @@ def contacts():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    form = RegisterForm()
     # Форма регистрации - Начало секции
-    name = request.form.get('name')
-    surname = request.form.get('surname')
-    middle_name = request.form.get('middle_name')
-    rand_id = randint(0, 10)
-    nickname = translit(str(name).lower() + str(surname).lower() + str(rand_id), 'ru', reversed=True)
-    status = request.form.get('status')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    repeat_password = request.form.get('repeat_password')
-    phone_number = request.form.get('phone_number')
-    if request.method == 'POST':
+    if request.method == "POST" and request.method == 'POST':
+        name = form.name.data
+        surname = form.surname.data
+        middle_name = form.middle_name.data
+        rand_id = randint(0, 10)
+        nickname = translit(str(name).lower() + str(surname).lower() + str(rand_id), 'ru', reversed=True)
+        status = form.status.data
+        email = form.email.data
+        password = form.password.data
+        repeat_password = form.repeat_pass.data
+        phone_number = form.phone.data
         if not (name or surname or status or email or password or repeat_password):
             flash('Пожалуйста, заполните обязательные для регистрации поля')
         elif password != repeat_password:
@@ -174,7 +175,7 @@ def register():
                          password=hash_pwd, phone_number=phone_number, nickname=nickname)
             return redirect(url_for('index'))
     # Форма регистрации - Конец секции
-    return render_template('register.html')
+    return render_template('register.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
