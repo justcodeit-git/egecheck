@@ -154,7 +154,7 @@ def contacts():
 def register():
     form = RegisterForm()
     # Форма регистрации - Начало секции
-    if request.method == "POST" and request.method == 'POST':
+    if request.method == "POST" and form.validate_on_submit():
         name = form.name.data
         surname = form.surname.data
         middle_name = form.middle_name.data
