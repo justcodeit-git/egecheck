@@ -52,8 +52,6 @@ def add():
 def post(id):
     # Добавление и вывод комментариев - Начало секции
     post_id = Posts.get(Posts.id == id)
-    form_h = CommentsHForm()
-    form_s = CommentsSForm()
     if request.method == 'POST':
         current_category = Posts.select(Posts.category).where(Posts.id == post_id)
         for cat in current_category:
@@ -127,7 +125,7 @@ def post(id):
     comments_s = CommentsS.select().join(Users).where(CommentsS.post_id == post_id,
                                                       Users.id == CommentsS.author).order_by(CommentsS.date.desc())
     # Добавление и вывод комментариев - Конец секции
-    return render_template("post.html", post=post_id, comments_h=comments_h, comments_s=comments_s, form_h=form_h)
+    return render_template("post.html", post=post_id, comments_h=comments_h, comments_s=comments_s)
 
 
 @app.route('/add_post', methods=['GET', 'POST'])

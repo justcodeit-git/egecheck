@@ -22,7 +22,7 @@ class MessageForm(FlaskForm):
 class RegisterForm(FlaskForm):
     surname = StringField('Фамилия', validators=[Required()])
     name = StringField('Имя', validators=[Required()])
-    middle_name = StringField('Отчество (при наличии)', validators=[Required()])
+    middle_name = StringField('Отчество (при наличии)')
     status = SelectField(
         'Выберите то, кем вы являетесь (если вы одновремено и педагог и репетитор, то выберите ваш главный статус)',
         choices=[('', 'Выберите свой статус'), ('Учащийся', 'Учащийся'), ('Педагог', 'Педагог'),
