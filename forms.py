@@ -1,10 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField, IntegerField
 from wtforms.validators import Required, DataRequired, Email, Optional, Length, EqualTo
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Адрес электронной почты', validators=[Required()])
+    email = StringField('Адрес электронной почты', validators=[Required(), Email(message='Вы ввели неправильный адрес.'
+                                                                                         'Напомним, что адрес'
+                                                                                         'электронной почты должен'
+                                                                                         'содержать латинские буквы и'
+                                                                                         'знак @')])
     password = PasswordField('Пароль', validators=[Required(), DataRequired()])
     submit = SubmitField('Войти на сайт')
 
@@ -21,9 +25,13 @@ class RegisterForm(FlaskForm):
     middle_name = StringField('Отчество (при наличии)', validators=[Required()])
     status = SelectField(
         'Выберите то, кем вы являетесь (если вы одновремено и педагог и репетитор, то выберите ваш главный статус)',
-        choices=[('Учащйися', 'Учащийся'), ('Педагог', 'Педагог'),
+        choices=[('', 'Выберите свой статус'), ('Учащийся', 'Учащийся'), ('Педагог', 'Педагог'),
                  ('Эксперт', 'Эксперт'), ('Репетитор', 'Репетитор')])
-    email = StringField('Адрес электронной почты', validators=[Required()])
+    email = StringField('Адрес электронной почты', validators=[Required(), Email(message='Вы ввели неправильный адрес.'
+                                                                                         'Напомним, что адрес'
+                                                                                         'электронной почты должен'
+                                                                                         'содержать латинские буквы и'
+                                                                                         'знак @')])
     password = PasswordField('Введите пароль')
     repeat_pass = PasswordField('Повторите ввод пароля',
                                 validators=[Required(), EqualTo('repeat_pass', message='Пароли не'

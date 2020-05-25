@@ -1,7 +1,8 @@
 from peewee import *
+from playhouse.postgres_ext import PostgresqlExtDatabase
 from flask_login import UserMixin
 
-db = SqliteDatabase("expectorates.db")
+db = PostgresqlDatabase(database='ege_check_base', user='postgres', password='24071990', host='localhost')
 Messages = ''
 
 
@@ -106,5 +107,6 @@ class Messages(Model):
 
 
 def init_db():
-    db.drop_tables([CommentsH, CommentsS], safe=True)
+    db.connect()
+    db.drop_tables([Users, Posts, CommentsH, CommentsS, Notification, Messages], safe=True)
     db.create_tables([Users, Posts, CommentsH, CommentsS, Notification, Messages], safe=True)

@@ -27,7 +27,6 @@ admin.add_view(ModelView(Notification))
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    form = LoginForm()
     return redirect(url_for('login'))
 
 
@@ -53,6 +52,8 @@ def add():
 def post(id):
     # Добавление и вывод комментариев - Начало секции
     post_id = Posts.get(Posts.id == id)
+    form_h = CommentsHForm()
+    form_s = CommentsSForm()
     if request.method == 'POST':
         current_category = Posts.select(Posts.category).where(Posts.id == post_id)
         for cat in current_category:
@@ -79,7 +80,8 @@ def post(id):
                 CommentsH.create(k1h=k1h, k2h=k2h, k3h=k3h, k4h=k4h, k5h=k5h, k6h=k6h, k7h=k7h,
                                  k1h_grade=k1h_grade, k2h_grade=k2h_grade, k3h_grade=k3h_grade,
                                  k4h_grade=k4h_grade, k5h_grade=k5h_grade, k6h_grade=k6h_grade,
-                                 k7h_grade=k7h_grade, total=total_h, author=g.user, post_id=post_id_h, date=create_date)
+                                 k7h_grade=k7h_grade, total=total_h, author=g.user, post_id=post_id_h,
+                                 date=create_date)
                 current_author_post = Posts.select(Posts).join(Users).where(Posts.id == post_id,
                                                                             Users.id == Posts.author)
                 title = 'Ваше сочинение получило новую оценку'
@@ -87,7 +89,7 @@ def post(id):
                     sender = Users.select().where(Users.id == g.user)
                     for i in sender:
                         message = i.surname + ' ' + i.name + ' оценил ваше историческое сочинение по периоду ' + j.title
-                    recipient = j.author.id
+                        recipient = j.author.id
                 ntf_date = datetime.today()
                 Notification.create(title=title, message=message, sender=sender, recipient=recipient, date=ntf_date)
                 return redirect(request.url)
@@ -125,7 +127,7 @@ def post(id):
     comments_s = CommentsS.select().join(Users).where(CommentsS.post_id == post_id,
                                                       Users.id == CommentsS.author).order_by(CommentsS.date.desc())
     # Добавление и вывод комментариев - Конец секции
-    return render_template("post.html", post=post_id, comments_h=comments_h, comments_s=comments_s)
+    return render_template("post.html", post=post_id, comments_h=comments_h, comments_s=comments_s, form_h=form_h)
 
 
 @app.route('/add_post', methods=['GET', 'POST'])
